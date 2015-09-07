@@ -591,6 +591,16 @@ _.extend(Connection.prototype, {
         record.readyDeps.depend();
         return record.ready;
       },
+      readyPromise: function () {
+        return new Promise(function (resolve) {
+    			Tracker.autorun(function (computation) {
+    				if (handle.ready()) {
+    					resolve(true);
+    					computation.stop();
+    				}
+    			})
+        })
+      },
       subscriptionId: id
     };
 
